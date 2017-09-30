@@ -1,16 +1,18 @@
-{
+module.exports = {
   "extends": "airbnb-base",
   "rules": {
     "indent": ["warn", 4, {"SwitchCase": 1}],
     "arrow-parens": "off",
     "quotes": ["error", "single"],
     "space-before-function-paren": "off",
-    "comma-dangle": ["off", {
+    "comma-dangle": ["error", {
       "arrays": "always-multiline",
       "objects": "always-multiline",
       "exports": "always-multiline",
       "functions": "ignore"
     }],
-    "global-require": "off"
+    "global-require": "off",
+    "no-console": "off",
+    "import/no-dynamic-require": "off"
   }
-}
+};

@@ -1,52 +1,37 @@
-module.exports = {
+const defaultOptions = {
+    devMode: true, // TODO: Should be defined by process.env.NODE_ENV somehow
+    // Working and output directories
+    srcDir: './src',
+    buildDir: './build',
+    distDir: './dist',
+    // DevServer settings
+    host: 'localhost', // TODO: Should use local network ip by default
+    port: 3000,
+    // List of supported browsers for babel-preset-env and autoprefixer.
+    browserList: ['last 2 versions'],
+};
+
+const create = (options) => ({
     presets: [],
 
-    config: {
-        webpack: {
-            foo: 'core-config',
+    options: defaultOptions,
 
-            module: {
-                rules: [
-                    {
-                        test: /\.(js|jsx)$/,
-                        use: [
-                            {
-                                loader: 'react-hot-loader',
-                            },
-                            {
-                                loader: 'babel-loader',
-                                options: {
-                                    plugins: ['transform-runtime'],
-                                    presets: [
-                                        ['es2015', { modules: false }],
-                                        'stage-1',
-                                        'react',
-                                    ]
-                                }
-                            },
-                            {
-                                loader: 'eslint-loader',
-                                options: {
-                                    configFile: './.eslintrc',
-                                }
-                            }
-                        ],
-                        exclude: /node_modules/
-                    },
-                ],
-            },
-        },
+    webpack: require('./config/webpack')(options),
 
-        babel: {
-            foo: 'core-config',
-        },
+    babel: {
+        foo: 'core-config',
+    },
 
-        eslint: {
-            foo: 'core-config',
-        },
+    eslint: {
+        foo: 'core-config',
+    },
 
-        jest: {
-            foo: 'core-config',
-        },
-    }
+    jest: {
+        foo: 'core-config',
+    },
+});
+
+module.exports = {
+    defaultOptions,
+    create,
 };
