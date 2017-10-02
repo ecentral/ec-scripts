@@ -1,28 +1,31 @@
-module.exports = ({ browserList }) => ({
+const fs = require('fs');
+
+/**
+ * This is a workaround that helps babel resolve its presets.
+ * See https://github.com/babel/babel-loader/issues/166#issuecomment-160866946
+ * @param {Array} presets The presets to use (not prefixed).
+ * @return {Array} The resolved presets to use.
+ */
+const getBabelPresets = presets => presets.map(preset => require.resolve(`babel-preset-${preset}`));
+
+module.exports = ({ eslint }) => ({
     test: /\.js$/, // /\.(js|jsx)$/,
     use: [
         {
             loader: 'babel-loader',
-            options: {
-                presets: [
-                    ['env', {
-                        modules: false,
-                        targets: {
-                            browsers: browserList,
-                        },
-                    }],
+            query: {
+                // TODO: How to pass the targets in browserList here?
+                presets: getBabelPresets([
+                    'env',
                     'stage-1',
-                    // 'react'
-                ],
-                // plugins: ['react-hot-loader/babel'],
+                ]),
             },
         },
         {
             loader: 'eslint-loader',
             options: {
-                // TODO: Resolve with correct config
-                // How to access config.eslint here?
-                // configFile: './.eslintrc.json',
+                useEslintrc: fs.existsSync('./eslintrc.js'),
+                rules: eslint,
             },
         },
     ],
