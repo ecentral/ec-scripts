@@ -19,17 +19,15 @@ module.exports = (options) => ({
     },
 
     resolve: {
-        modules: ['./node_modules/'],
+        modules: ['./node_modules/', localNodeModules],
         extensions: [
             '.js',
             // '.jsx',
         ],
-        alias: {
-            'babel-loader': path.resolve(localNodeModules, 'babel-loader'),
-            'babel-polyfill': path.resolve(localNodeModules, 'babel-polyfill'),
-            webpack: path.resolve(localNodeModules, 'webpack'),
-            'webpack-dev-server': path.resolve(localNodeModules, 'webpack-dev-server'),
-        },
+    },
+
+    resolveLoader: {
+        modules: ['./node_modules/', localNodeModules],
     },
 
     devServer: {
