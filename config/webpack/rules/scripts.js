@@ -1,24 +1,5 @@
 const fs = require('fs');
-
-/**
- * This is a workaround that helps babel resolve its presets.
- * See https://github.com/babel/babel-loader/issues/166#issuecomment-160866946
- * @param {Array} presets The presets to use (not prefixed).
- * @return {Array} The resolved presets to use.
- */
-const getBabelPresets = (presets) => (
-    presets.map((preset) => {
-        if (Array.isArray(preset)) {
-            const [name, options] = preset;
-            return [
-                require.resolve(`babel-preset-${name}`),
-                options,
-            ];
-        }
-
-        return require.resolve(`babel-preset-${preset}`);
-    })
-);
+const requireBabelPresets = require('../../../lib/utils/requireBabelPresets');
 
 module.exports = ({ browserList, eslint }) => ({
     test: /\.js$/,
@@ -26,7 +7,7 @@ module.exports = ({ browserList, eslint }) => ({
         {
             loader: 'babel-loader',
             query: {
-                presets: getBabelPresets([
+                presets: requireBabelPresets([
                     ['env', {
                         modules: false,
                         targets: {
