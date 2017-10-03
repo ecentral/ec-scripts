@@ -18,6 +18,8 @@ module.exports = (options) => ({
         ],
     },
 
+    plugins: require('./plugins')(options),
+
     resolve: {
         modules: ['./node_modules/', localNodeModules],
         extensions: [
