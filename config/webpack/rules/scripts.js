@@ -1,7 +1,7 @@
-const fs = require('fs');
+const path = require('path');
 const requireBabelPresets = require('../../../lib/utils/requireBabelPresets');
 
-module.exports = ({ browserList, eslint }) => ({
+module.exports = ({ browserList }) => ({
     test: /\.js$/,
     use: [
         {
@@ -21,9 +21,10 @@ module.exports = ({ browserList, eslint }) => ({
         {
             loader: 'eslint-loader',
             options: {
-                useEslintrc: fs.existsSync('./eslintrc.js'),
-                // TODO: Get correct eslint config (eslint is not part of options parameter)
-                rules: eslint,
+                // TODO: Use correct eslint config from combined configuration object if possible.
+                // The configFile option seems to accept only a static path, not an object.
+                // If omitted this defaults to: [projectRoot]/.eslintrc*
+                configFile: path.resolve(__dirname, '../../../.eslintrc.js'),
             },
         },
     ],

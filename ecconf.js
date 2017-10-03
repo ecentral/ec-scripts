@@ -1,5 +1,5 @@
 const defaultOptions = {
-    devMode: true, // TODO: Should be defined by process.env.NODE_ENV somehow
+    devMode: true, // TODO: Should be defined by `process.env.NODE_ENV !== 'production'`
     // Working and output directories
     srcDir: './src',
     buildDir: './build',

@@ -22,11 +22,6 @@ if (args.build) {
     // Build and bundle all the things
     const webpack = require('webpack');
 
-    // TODO: Fix "Can't resolve '...'" Errors
-    // Webpack looks for modules in the project directory
-    // but it should look for them here.
-    // I already added aliases to webpacks config,
-    // but that didn't solve all errors.
     webpack(config.webpack, (err, stats) => {
         if (err) throw err;
 
@@ -38,8 +33,6 @@ if (args.build) {
             chunkModules: false,
             modules: false,
         }));
-
-        process.exit();
     });
 }
 
