@@ -6,17 +6,33 @@ const fs = require('fs');
  * @param {Array} presets The presets to use (not prefixed).
  * @return {Array} The resolved presets to use.
  */
-const getBabelPresets = presets => presets.map(preset => require.resolve(`babel-preset-${preset}`));
+const getBabelPresets = (presets) => (
+    presets.map((preset) => {
+        if (Array.isArray(preset)) {
+            const [name, options] = preset;
+            return [
+                require.resolve(`babel-preset-${name}`),
+                options,
+            ];
+        }
 
-module.exports = ({ eslint }) => ({
-    test: /\.js$/, // /\.(js|jsx)$/,
+        return require.resolve(`babel-preset-${preset}`);
+    })
+);
+
+module.exports = ({ browserList, eslint }) => ({
+    test: /\.js$/,
     use: [
         {
             loader: 'babel-loader',
             query: {
-                // TODO: How to pass the targets in browserList here?
                 presets: getBabelPresets([
-                    'env',
+                    ['env', {
+                        modules: false,
+                        targets: {
+                            browsers: browserList,
+                        },
+                    }],
                     'stage-1',
                 ]),
             },
@@ -25,6 +41,7 @@ module.exports = ({ eslint }) => ({
             loader: 'eslint-loader',
             options: {
                 useEslintrc: fs.existsSync('./eslintrc.js'),
+                // TODO: Get correct eslint config (eslint is not part of options parameter)
                 rules: eslint,
             },
         },
