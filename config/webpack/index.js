@@ -35,7 +35,9 @@ module.exports = (options) => ({
     devServer: {
         contentBase: options.buildDir,
         hot: true,
+        inline: true,
         stats: {
+            // Todo: Does this even work?
             colors: true,
             hash: false,
             timings: true,

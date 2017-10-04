@@ -1,28 +1,41 @@
 #!/usr/bin/env node
-
-const path = require('path');
+const util = require('util');
 const parseArgs = require('minimist');
-const getConfig = require('../lib/utils/getConfig');
-const combineConfigs = require('../lib/utils/combineConfigs');
+const resolvePresets = require('../lib/utils/resolvePresets');
+const merge = require('../lib/utils/merge');
 
-// Get some paths
-const rootPath = path.resolve(__dirname, '../');
-const extPath = process.cwd();
+// Load the configurations.
+const presetConfigs = resolvePresets(process.cwd());
 
-// Gather all the configurations
-const rootConfig = getConfig(rootPath);
-const extConfig = getConfig(extPath);
-// Combine configurations
-const config = combineConfigs([rootConfig, extConfig]);
+const config = {};
+
+/**
+ * Todo: Move this to a separate module.
+ * Todo: Allow configurations to be passed as objects in addition to functions.
+ */
+config.options = presetConfigs.reduce((mergedOptions, presetConfig) => {
+    const thisOptions = presetConfig.options(mergedOptions);
+    return merge(mergedOptions, thisOptions);
+}, {});
+
+config.addons = presetConfigs.reduce((mergedAddons, presetConfig) => {
+    const thisAddons = presetConfig.addons(mergedAddons, config.options);
+    return merge(mergedAddons, thisAddons);
+}, {});
+
+config.runners = presetConfigs.reduce((mergedRunners, presetConfig) => {
+    const thisRunners = presetConfig.runners(mergedRunners, config.addons, config.options);
+    return merge(mergedRunners, thisRunners);
+}, {});
 
 // Parse cli args
 const args = parseArgs(process.argv.slice(2));
 
-if (args.build) {
+if (args.build || args.b) {
     // Build and bundle all the things
     const webpack = require('webpack');
 
-    webpack(config.webpack, (err, stats) => {
+    webpack(config.runners.webpack, (err, stats) => {
         if (err) throw err;
 
         console.log('[webpack]', stats.toString({
@@ -44,7 +57,7 @@ if (args.start || args.s) {
     const { host, port } = config.options;
     const url = `http://${host}:${port}`;
 
-    new WebpackDevServer(webpack(config.webpack))
+    new WebpackDevServer(webpack(config.runners.webpack))
         .listen(port, host, (err) => {
             if (err) throw err;
             // Server listening
@@ -52,10 +65,8 @@ if (args.start || args.s) {
         });
 }
 
-if (args.status) {
+if (args['show-config'] || args.lc) {
     // Print config
-    const output = JSON.stringify(config, null, 4);
-
     console.info('Merged project configuration:');
-    console.info(output);
+    console.info(util.inspect(config, true, null));
 }
