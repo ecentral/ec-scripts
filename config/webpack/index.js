@@ -2,7 +2,7 @@ const path = require('path');
 
 const localNodeModules = path.resolve(__dirname, '../../', 'node_modules');
 
-module.exports = (options) => ({
+module.exports = ({ addons, options }) => ({
     entry: require('./entry')(options),
     output: require('./output')(options),
 
@@ -13,7 +13,7 @@ module.exports = (options) => ({
 
     module: {
         rules: [
-            require('./rules/scripts')(options),
+            require('./rules/scripts')(addons),
             require('./rules/styles')(options),
         ],
     },
@@ -24,7 +24,6 @@ module.exports = (options) => ({
         modules: ['./node_modules/', localNodeModules],
         extensions: [
             '.js',
-            // '.jsx',
         ],
     },
 

@@ -2,31 +2,12 @@
 const util = require('util');
 const parseArgs = require('minimist');
 const resolvePresets = require('../lib/utils/resolvePresets');
-const merge = require('../lib/utils/merge');
+const combineConfigs = require('../lib/utils/combineConfigs');
 
 // Load the configurations.
 const presetConfigs = resolvePresets(process.cwd());
-
-const config = {};
-
-/**
- * Todo: Move this to a separate module.
- * Todo: Allow configurations to be passed as objects in addition to functions.
- */
-config.options = presetConfigs.reduce((mergedOptions, presetConfig) => {
-    const thisOptions = presetConfig.options(mergedOptions);
-    return merge(mergedOptions, thisOptions);
-}, {});
-
-config.addons = presetConfigs.reduce((mergedAddons, presetConfig) => {
-    const thisAddons = presetConfig.addons(mergedAddons, config.options);
-    return merge(mergedAddons, thisAddons);
-}, {});
-
-config.runners = presetConfigs.reduce((mergedRunners, presetConfig) => {
-    const thisRunners = presetConfig.runners(mergedRunners, config.addons, config.options);
-    return merge(mergedRunners, thisRunners);
-}, {});
+// Combine all preset configurations.
+const config = combineConfigs(presetConfigs);
 
 // Parse cli args
 const args = parseArgs(process.argv.slice(2));

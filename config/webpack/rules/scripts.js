@@ -1,22 +1,11 @@
 const path = require('path');
-const requireBabelPresets = require('../../../lib/utils/requireBabelPresets');
 
-module.exports = ({ browserList }) => ({
+module.exports = (addons) => ({
     test: /\.js$/,
     use: [
         {
             loader: 'babel-loader',
-            query: {
-                presets: requireBabelPresets([
-                    ['env', {
-                        modules: false,
-                        targets: {
-                            browsers: browserList,
-                        },
-                    }],
-                    'stage-1',
-                ]),
-            },
+            query: addons.babel,
         },
         {
             loader: 'eslint-loader',

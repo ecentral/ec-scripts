@@ -12,15 +12,13 @@ module.exports = {
         browserList: ['last 2 versions'],
     }),
 
-    addons: (addons, options) => ({
-        babel: {
-            foo: 'bar',
-        },
-
+    addons: ({ options }) => ({
+        babel: require('./config/babel')(options),
         eslint: require('./config/eslint')(options),
     }),
 
-    runners: (runners, addons, options) => ({
-        webpack: require('./config/webpack')(options),
+    runners: (config) => ({
+        webpack: require('./config/webpack')(config),
+        // TODO: Add jest runner.
     }),
 };
