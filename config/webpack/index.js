@@ -7,6 +7,7 @@ module.exports = ({ addons, options }) => ({
     output: require('./output')(options),
 
     target: 'web',
+    // TODO: Check if sourcemaps work for devMode
     devtool: options.devMode
         ? 'eval-source-map'
         : 'source-map',
