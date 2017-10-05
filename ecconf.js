@@ -1,10 +1,14 @@
 module.exports = {
     options: () => ({
-        devMode: true, // TODO: Should be defined by `process.env.NODE_ENV !== 'production'`
+        devMode: false, // TODO: Should be defined by `process.env.NODE_ENV !== 'production'`
         // Working and output directories
         srcDir: './src',
         buildDir: './build',
         distDir: './dist',
+        // Define files for main bundle
+        entryFiles: [
+            'index.js',
+        ],
         // DevServer settings
         host: 'localhost', // TODO: Should use local network ip by default
         port: 3000,

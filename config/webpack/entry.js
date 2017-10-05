@@ -1,34 +1,45 @@
+const path = require('path');
+const invariant = require('invariant');
+
 module.exports = ({
     devMode,
     host,
     port,
     srcDir,
+    entryFiles,
 }) => {
-    if (devMode) {
-        const URL = `http://${host}:${port}`;
-        const devServerEntries = [
-            `webpack-dev-server/client?${URL}`,
-            'webpack/hot/dev-server',
-        ];
+    const bundledEntries = [];
 
+    if (devMode) {
+        const url = `http://${host}:${port}`;
+        bundledEntries.push(
+            `webpack-dev-server/client?${url}`,
+            'webpack/hot/dev-server'
+        );
+    }
+
+    bundledEntries.push('babel-polyfill');
+
+    if (Array.isArray(entryFiles)) {
         return {
-            app: [
-                ...devServerEntries,
-                'babel-polyfill',
-                `${srcDir}/index.js`,
+            main: [
+                ...bundledEntries,
+                ...entryFiles.map(file => `./${path.join(srcDir, file)}`),
             ],
         };
     }
 
-    return {
-        app: [
-            'babel-polyfill',
-            `${srcDir}/index.js`,
-        ],
-    };
+    invariant(
+        typeof entryFiles === 'object',
+        `Invalid type of 'entryFiles'. Please use an Array. Received: ${typeof entryFiles}`
+    );
 
-    // TODO: Add helper for entry files configuration
-    // Should use a mapping like [{ bundleName: entryFile }]
-    // and add devServerEntries and polyfills automatically?
-    // We could also make this mapping part of the options.
+    console.warn(`
+PLEASE NOTE: You have defined entryFiles as an object.
+This is not fully supported right now.
+Please consider to use a single bundle and define entryFiles as an Array
+or know what you are doing.
+`);
+
+    return entryFiles;
 };
