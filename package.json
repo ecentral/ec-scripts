@@ -4,6 +4,7 @@
   "description": "eCentral Scripts",
   "author": "eCentral",
   "license": "MIT",
+  "main": "lib/index.js",
   "bin": {
     "ec-cli": "bin/cli.js"
   },

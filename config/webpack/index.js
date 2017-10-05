@@ -1,6 +1,4 @@
-const path = require('path');
-
-const localNodeModules = path.resolve(__dirname, '../../', 'node_modules');
+const settings = require('../../lib/settings');
 
 module.exports = ({ addons, options }) => ({
     entry: require('./entry')(options),
@@ -22,14 +20,14 @@ module.exports = ({ addons, options }) => ({
     plugins: require('./plugins')(options),
 
     resolve: {
-        modules: ['./node_modules/', localNodeModules],
+        modules: ['./node_modules/', settings.nodeModulesPath],
         extensions: [
             '.js',
         ],
     },
 
     resolveLoader: {
-        modules: ['./node_modules/', localNodeModules],
+        modules: ['./node_modules/', settings.nodeModulesPath],
     },
 
     devServer: {
