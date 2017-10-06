@@ -1,52 +1,28 @@
 module.exports = {
-    presets: [],
+    options: () => ({
+        devMode: false, // TODO: Should be defined by `process.env.NODE_ENV !== 'production'`
+        // Working and output directories
+        srcDir: './src',
+        buildDir: './build',
+        distDir: './dist',
+        // Define files for main bundle
+        entryFiles: [
+            'index.js',
+        ],
+        // DevServer settings
+        host: 'localhost', // TODO: Should use local network ip by default
+        port: 3000,
+        // List of supported browsers for babel-preset-env and autoprefixer.
+        browserList: ['last 2 versions'],
+    }),
 
-    config: {
-        webpack: {
-            foo: 'core-config',
+    addons: ({ options }) => ({
+        babel: require('./config/babel')(options),
+        eslint: require('./config/eslint')(options),
+    }),
 
-            module: {
-                rules: [
-                    {
-                        test: /\.(js|jsx)$/,
-                        use: [
-                            {
-                                loader: 'react-hot-loader',
-                            },
-                            {
-                                loader: 'babel-loader',
-                                options: {
-                                    plugins: ['transform-runtime'],
-                                    presets: [
-                                        ['es2015', { modules: false }],
-                                        'stage-1',
-                                        'react',
-                                    ]
-                                }
-                            },
-                            {
-                                loader: 'eslint-loader',
-                                options: {
-                                    configFile: './.eslintrc',
-                                }
-                            }
-                        ],
-                        exclude: /node_modules/
-                    },
-                ],
-            },
-        },
-
-        babel: {
-            foo: 'core-config',
-        },
-
-        eslint: {
-            foo: 'core-config',
-        },
-
-        jest: {
-            foo: 'core-config',
-        },
-    }
+    runners: (config) => ({
+        webpack: require('./config/webpack')(config),
+        // TODO: Add jest runner.
+    }),
 };
