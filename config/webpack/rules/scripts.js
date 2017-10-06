@@ -3,7 +3,10 @@ module.exports = (addons) => ({
     use: [
         {
             loader: 'babel-loader',
-            query: addons.babel,
+            options: {
+                ...addons.babel,
+                babelrc: false,
+            },
         },
         {
             loader: 'eslint-loader',

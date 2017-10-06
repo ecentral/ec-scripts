@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 const util = require('util');
 const parseArgs = require('minimist');
+const invariant = require('invariant');
 const resolvePresets = require('../lib/utils/resolvePresets');
 const combineConfigs = require('../lib/utils/combineConfigs');
-const buildEslintrc = require('../lib/utils/buildEslintrc');
+const writeFile = require('../lib/utils/writeFile');
 
 const extPath = process.cwd();
 
@@ -15,12 +16,17 @@ const config = combineConfigs(presetConfigs);
 // Parse cli args
 const args = parseArgs(process.argv.slice(2));
 
-// Always (re-)build .eslintrc file.
-buildEslintrc(extPath, config.addons.eslint);
+// Always rebuild .eslintrc file.
+writeFile(extPath, '.eslintrc.json', config.addons.eslint);
 
-if (args.build || args.watch) {
+if (args.build) {
     // Build and bundle all the things.
     const webpack = require('webpack');
+
+    invariant(
+        !config.options.devMode && !config.options.testMode,
+        'Make sure to run build script in "production" mode.'
+    );
 
     if (args.watch) {
         // Add flag for watch mode.
@@ -46,6 +52,11 @@ if (args.start) {
     const webpack = require('webpack');
     const WebpackDevServer = require('webpack-dev-server');
 
+    invariant(
+        config.options.devMode && !config.options.testMode,
+        'Make sure to start dev server in "development" mode.'
+    );
+
     const { host, port } = config.options;
     const url = `http://${host}:${port}`;
 
@@ -59,6 +70,33 @@ if (args.start) {
             // Server listening
             console.info('[webpack-dev-server]', url);
         });
+}
+
+if (args.test) {
+    // Run tests with jest
+    const jest = require('jest');
+
+    invariant(
+        config.options.testMode,
+        'Make sure to run tests in "test" mode.'
+    );
+
+    // Makes the script crash on unhandled rejections instead of silently
+    // ignoring them. In the future, promise rejections that are not handled will
+    // terminate the Node.js process with a non-zero exit code.
+    process.on('unhandledRejection', (err) => { throw err; });
+
+    // Make configuration globally available in test environment.
+    // This is necessary for the babel-jest transformer to work.
+    writeFile(extPath, '.babelrc', config.addons.babel);
+
+    const argsList = process.argv
+        .slice(2)
+        .filter(arg => arg !== '--test');
+
+    argsList.push('--config', JSON.stringify(config.runners.jest));
+
+    jest.run(argsList);
 }
 
 if (args['show-config']) {

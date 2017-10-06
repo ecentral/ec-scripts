@@ -1,6 +1,7 @@
 module.exports = {
     options: () => ({
         devMode: false, // TODO: Should be defined by `process.env.NODE_ENV !== 'production'`
+        testMode: false, // TODO: Should be defined by `process.env.NODE_ENV !== 'test'`
         // Working and output directories
         srcDir: './src',
         buildDir: './build',
@@ -23,6 +24,6 @@ module.exports = {
 
     runners: (config) => ({
         webpack: require('./config/webpack')(config),
-        // TODO: Add jest runner.
+        jest: require('./config/jest')(config),
     }),
 };
