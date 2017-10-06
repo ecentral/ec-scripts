@@ -1,10 +1,9 @@
 #!/usr/bin/env node
-const fs = require('fs');
-const path = require('path');
 const util = require('util');
 const parseArgs = require('minimist');
 const resolvePresets = require('../lib/utils/resolvePresets');
 const combineConfigs = require('../lib/utils/combineConfigs');
+const buildEslintrc = require('../lib/utils/buildEslintrc');
 
 const extPath = process.cwd();
 
@@ -16,13 +15,8 @@ const config = combineConfigs(presetConfigs);
 // Parse cli args
 const args = parseArgs(process.argv.slice(2));
 
-if (args.init) {
-    // Create eslint config file.
-    const eslintConfig = JSON.stringify(config.addons.eslint, null, 4);
-    const eslintFileName = path.join(extPath, '.eslintrc.json');
-
-    fs.writeFileSync(eslintFileName, eslintConfig);
-}
+// Always (re-)build .eslintrc file.
+buildEslintrc(extPath, config.addons.eslint);
 
 if (args.build || args.watch) {
     // Build and bundle all the things.
@@ -55,7 +49,11 @@ if (args.start) {
     const { host, port } = config.options;
     const url = `http://${host}:${port}`;
 
-    new WebpackDevServer(webpack(config.runners.webpack))
+    new WebpackDevServer(
+        webpack(config.runners.webpack),
+        // For some reason passing this explicitly seems necessary
+        config.runners.webpack.devServer
+    )
         .listen(port, host, (err) => {
             if (err) throw err;
             // Server listening
@@ -65,6 +63,5 @@ if (args.start) {
 
 if (args['show-config']) {
     // Print config
-    console.info('Merged project configuration:');
     console.info(util.inspect(config, true, null));
 }

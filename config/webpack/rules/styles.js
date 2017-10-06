@@ -46,6 +46,7 @@ module.exports = ({ devMode, browserList, srcDir }) => {
                 {
                     loader: 'css-loader',
                     options: {
+                        sourceMap: true,
                         modules: true,
                         localIdentName: '[name]__[hash:base64:5]',
                         url: false,
