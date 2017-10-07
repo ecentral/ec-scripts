@@ -6,6 +6,11 @@ const resolvePresets = require('../lib/utils/resolvePresets');
 const combineConfigs = require('../lib/utils/combineConfigs');
 const writeFile = require('../lib/utils/writeFile');
 
+invariant(
+    process.env.NODE_ENV !== undefined,
+    'The NODE_ENV environment variable is required but was not specified.'
+);
+
 const extPath = process.cwd();
 
 // Load the configurations.

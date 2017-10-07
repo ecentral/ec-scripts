@@ -1,7 +1,5 @@
 module.exports = {
     options: () => ({
-        devMode: false, // TODO: Should be defined by `process.env.NODE_ENV !== 'production'`
-        testMode: false, // TODO: Should be defined by `process.env.NODE_ENV !== 'test'`
         // Working and output directories
         srcDir: './src',
         buildDir: './build',
@@ -19,6 +17,9 @@ module.exports = {
         port: 3000,
         // List of supported browsers for babel-preset-env and autoprefixer.
         browserList: ['last 2 versions'],
+        // Define environment boolean flags
+        devMode: process.env.NODE_ENV === 'development',
+        testMode: process.env.NODE_ENV === 'test',
     }),
 
     addons: ({ options }) => ({
