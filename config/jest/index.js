@@ -1,6 +1,8 @@
+const settings = require('../../lib/settings');
+
 module.exports = () => ({
     verbose: true,
-    rootDir: process.cwd(),
+    rootDir: settings.appPath,
     setupFiles: [
         require.resolve('./setupEnv'),
     ],
@@ -11,5 +13,6 @@ module.exports = () => ({
     },
     transform: {
         '\\.js$': require.resolve('./babelTransform'),
+        '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$': require.resolve('./fileTransform'),
     },
 });

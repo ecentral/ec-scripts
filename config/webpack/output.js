@@ -2,6 +2,6 @@ const path = require('path');
 
 module.exports = ({ distDir }) => ({
     path: path.resolve(distDir),
-    publicPath: '/',
+    publicPath: './',
     filename: '[name].bundle.js',
 });

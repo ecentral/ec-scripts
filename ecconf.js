@@ -2,6 +2,8 @@ module.exports = {
     options: () => ({
         // Working and output directories
         srcDir: './src',
+        assetsDir: './assets', // relative to srcDir
+        stylesDir: './styles', // relative to srcDir
         buildDir: './build',
         distDir: './dist',
         // Define files for main bundle
@@ -13,10 +15,17 @@ module.exports = {
         // Define page title
         title: 'App | powered by ec-scripts',
         // DevServer settings
-        host: 'localhost', // TODO: Should use local network ip by default
+        host: '0.0.0.0',
         port: 3000,
         // List of supported browsers for babel-preset-env and autoprefixer.
-        browserList: ['last 2 versions'],
+        browserList: [
+            '>1%',
+            'last 4 versions',
+            'Firefox ESR',
+            'not ie < 9',
+        ],
+        // The file size in bytes under which the url-loader kicks in.
+        inlineFileSize: 10000,
         // Define environment boolean flags
         devMode: process.env.NODE_ENV === 'development',
         testMode: process.env.NODE_ENV === 'test',

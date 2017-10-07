@@ -18,19 +18,28 @@ module.exports = ({ addons, options }) => ({
         rules: [
             require('./rules/scripts')(addons),
             require('./rules/styles')(options),
+            require('./rules/files')(options),
         ],
     },
 
     plugins: require('./plugins')(options),
 
     resolve: {
-        modules: ['./node_modules/', settings.nodeModulesPath],
+        modules: [
+            'node_modules',
+            settings.nodeModulesPath,
+            settings.appNodeModulesPath,
+        ],
         extensions: [
             '.js',
         ],
     },
 
     resolveLoader: {
-        modules: ['./node_modules/', settings.nodeModulesPath],
+        modules: [
+            'node_modules',
+            settings.nodeModulesPath,
+            settings.appNodeModulesPath,
+        ],
     },
 });

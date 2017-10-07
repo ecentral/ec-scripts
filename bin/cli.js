@@ -5,16 +5,15 @@ const invariant = require('invariant');
 const resolvePresets = require('../lib/utils/resolvePresets');
 const combineConfigs = require('../lib/utils/combineConfigs');
 const writeFile = require('../lib/utils/writeFile');
+const settings = require('../lib/settings');
 
 invariant(
     process.env.NODE_ENV !== undefined,
     'The NODE_ENV environment variable is required but was not specified.'
 );
 
-const extPath = process.cwd();
-
 // Load the configurations.
-const presetConfigs = resolvePresets(extPath);
+const presetConfigs = resolvePresets(settings.appPath);
 // Combine all preset configurations.
 const config = combineConfigs(presetConfigs);
 
@@ -22,7 +21,7 @@ const config = combineConfigs(presetConfigs);
 const args = parseArgs(process.argv.slice(2));
 
 // Always rebuild .eslintrc file.
-writeFile(extPath, '.eslintrc.json', config.addons.eslint);
+writeFile(settings.appPath, '.eslintrc.json', config.addons.eslint);
 
 if (args.build) {
     // Build and bundle all the things.
@@ -93,7 +92,7 @@ if (args.test) {
 
     // Make configuration globally available in test environment.
     // This is necessary for the babel-jest transformer to work.
-    writeFile(extPath, '.babelrc', config.addons.babel);
+    writeFile(settings.appPath, '.babelrc', config.addons.babel);
 
     const argsList = process.argv
         .slice(2)
