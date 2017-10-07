@@ -10,6 +10,10 @@ module.exports = {
         entryFiles: [
             'index.js',
         ],
+        // Set default html template (or `null` for no html template)
+        htmlTemplate: require.resolve('./templates/index.ejs'),
+        // Define page title
+        title: 'App | powered by ec-scripts',
         // DevServer settings
         host: 'localhost', // TODO: Should use local network ip by default
         port: 3000,

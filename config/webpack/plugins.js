@@ -1,9 +1,21 @@
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-module.exports = ({ devMode }) => {
+module.exports = ({ devMode, htmlTemplate, title }) => {
+    const plugins = [];
+
+    if (htmlTemplate) {
+        plugins.push(
+            new HtmlWebpackPlugin({
+                title,
+                template: htmlTemplate,
+            }),
+        );
+    }
+
     if (devMode) {
-        return [
+        plugins.push(
             new webpack.DefinePlugin({
                 'process.env': {
                     NODE_ENV: JSON.stringify('development'),
@@ -11,10 +23,12 @@ module.exports = ({ devMode }) => {
             }),
             new webpack.HotModuleReplacementPlugin(),
             new webpack.NamedModulesPlugin(),
-        ];
+        );
+
+        return plugins;
     }
 
-    return [
+    plugins.push(
         new webpack.DefinePlugin({
             'process.env': {
                 NODE_ENV: JSON.stringify('production'),
@@ -33,9 +47,11 @@ module.exports = ({ devMode }) => {
                 screw_ie8: true,
             },
             output: {
-                comments: false,
                 screw_ie8: true,
+                comments: false,
             },
         }),
-    ];
+    );
+
+    return plugins;
 };
