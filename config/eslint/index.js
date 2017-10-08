@@ -1,6 +1,9 @@
 module.exports = () => ({
     extends: 'airbnb-base',
     parser: 'babel-eslint',
+    env: {
+        browser: true,
+    },
     rules: {
         indent: ['warn', 4, { SwitchCase: 1 }],
         'arrow-parens': 'off',

@@ -1,36 +1,45 @@
 const settings = require('../../lib/settings');
 
-module.exports = ({ addons, options }) => ({
-    entry: require('./entry')(options),
+module.exports = (config) => ({
+    entry: require('./entry')(config.options),
 
-    output: require('./output')(options),
+    output: require('./output')(config.options),
 
     target: 'web',
 
-    // TODO: Check if sourcemaps work for devMode
-    devtool: options.devMode
+    devtool: config.options.devMode
         ? 'eval-source-map'
         : 'source-map',
 
-    devServer: require('./devServer')(options),
+    devServer: require('./devServer')(config.options),
 
     module: {
         rules: [
-            require('./rules/scripts')(addons),
-            require('./rules/styles')(options),
+            require('./rules/scripts')(config.addons),
+            require('./rules/styles')(config.options),
+            require('./rules/files')(config.options),
         ],
     },
 
-    plugins: require('./plugins')(options),
+    plugins: require('./plugins')(config.options),
 
     resolve: {
-        modules: ['./node_modules/', settings.nodeModulesPath],
+        modules: [
+            'node_modules',
+            settings.nodeModulesPath,
+            settings.appNodeModulesPath,
+        ],
         extensions: [
             '.js',
+            '.json',
         ],
     },
 
     resolveLoader: {
-        modules: ['./node_modules/', settings.nodeModulesPath],
+        modules: [
+            'node_modules',
+            settings.nodeModulesPath,
+            settings.appNodeModulesPath,
+        ],
     },
 });
