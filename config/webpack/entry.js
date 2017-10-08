@@ -1,17 +1,11 @@
 const path = require('path');
 const invariant = require('invariant');
 
-module.exports = ({
-    devMode,
-    host,
-    port,
-    srcDir,
-    entryFiles,
-}) => {
+module.exports = (options) => {
     const bundledEntries = [];
 
-    if (devMode) {
-        const url = `http://${host}:${port}`;
+    if (options.devMode) {
+        const url = `http://${options.host}:${options.port}`;
         bundledEntries.push(
             `webpack-dev-server/client?${url}`,
             'webpack/hot/dev-server'
@@ -20,18 +14,18 @@ module.exports = ({
 
     bundledEntries.push('babel-polyfill');
 
-    if (Array.isArray(entryFiles)) {
+    if (Array.isArray(options.entryFiles)) {
         return {
             main: [
                 ...bundledEntries,
-                ...entryFiles.map(file => `./${path.join(srcDir, file)}`),
+                ...options.entryFiles.map(file => `./${path.join(options.srcDir, file)}`),
             ],
         };
     }
 
     invariant(
-        typeof entryFiles === 'object',
-        `Invalid type of 'entryFiles'. Please use an Array. Received: ${typeof entryFiles}`
+        typeof options.entryFiles === 'object',
+        `Invalid type of 'entryFiles'. Please use an Array. Received: ${typeof options.entryFiles}`
     );
 
     console.warn(`
@@ -41,5 +35,5 @@ Please consider to use a single bundle and define entryFiles as an Array
 or know what you are doing.
 `);
 
-    return entryFiles;
+    return options.entryFiles;
 };

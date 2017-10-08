@@ -10,15 +10,12 @@ const settings = require('../../lib/settings');
 module.exports = (options) => {
     const plugins = [];
 
-    // Define which folders to clean up before webpack runs
-    const cleanUpPaths = (options.devMode)
-        ? [path.resolve(settings.appPath, options.buildDir)]
-        : [path.resolve(settings.appPath, options.distDir)];
-
     // Add clean up plugin
     plugins.push(
         new CleanWebpackPlugin(
-            cleanUpPaths,
+            [
+                path.resolve(settings.appPath, options.buildDir),
+            ],
             { root: settings.appPath }
         ),
     );
@@ -30,7 +27,7 @@ module.exports = (options) => {
     if (fs.existsSync(assetsPath)) {
         const assetsOutputPath = path.resolve(
             settings.appPath,
-            (options.devMode) ? options.buildDir : options.distDir,
+            options.buildDir,
             // Use same assets folder name, but strip relative (../)
             options.assetsDir.replace(/^(?:\.\.\/)+/, '')
         );

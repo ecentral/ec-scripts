@@ -1,11 +1,10 @@
 module.exports = {
     options: () => ({
         // Working and output directories
-        srcDir: './src',
-        assetsDir: './assets', // relative to srcDir
-        stylesDir: './styles', // relative to srcDir
-        buildDir: './build',
-        distDir: './dist',
+        srcDir: 'src',
+        assetsDir: 'assets', // relative to srcDir
+        stylesDir: 'styles', // relative to srcDir
+        buildDir: 'build',
         // Define files for main bundle
         entryFiles: [
             'index.js',
