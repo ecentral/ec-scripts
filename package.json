@@ -1,26 +1,26 @@
 {
   "name": "ec-scripts",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "eCentral Scripts for painless, modern JavaScript development.",
   "author": "eCentral GmbH <info@ecentral.de>",
   "contributors": [
     "Felix Laukel <f.laukel@ecentral.de>",
     "Marcus von Keil <m.vonkeil@ecentral.de>"
   ],
-  "repository" : {
-    "type" : "git",
-    "url" : "https://gitlab.ecentral.de/f.laukel/ec-scripts.git"
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.ecentral.de/f.laukel/ec-scripts.git"
   },
   "main": "lib/index.js",
   "bin": {
-    "ec-cli": "bin/cli.js"
+    "ec-scripts": "bin/cli.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "engines" : {
-    "node" : ">=8.0",
-    "npm" : ">=5.0"
+  "engines": {
+    "node": ">=8.0",
+    "npm": ">=5.0"
   },
   "license": "MIT",
   "dependencies": {
