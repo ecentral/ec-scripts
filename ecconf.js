@@ -30,9 +30,9 @@ module.exports = {
         testMode: process.env.NODE_ENV === 'test',
     }),
 
-    addons: ({ options }) => ({
-        babel: require('./config/babel')(options),
-        eslint: require('./config/eslint')(options),
+    addons: (config) => ({
+        babel: require('./config/babel')(config.options),
+        eslint: require('./config/eslint')(config.options),
     }),
 
     runners: (config) => ({

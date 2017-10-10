@@ -1,6 +1,7 @@
+const path = require('path');
+
 module.exports = (options) => {
-    // Use assets dirname but strip relative (../)
-    const assetsDir = options.assetsDir.replace(/^(?:\.\.\/)+/, '');
+    const assetsDir = path.basename(options.assetsDir);
 
     return {
         test: [
