@@ -41,6 +41,12 @@ describe('combineConfigs', () => {
                                             foo: 'bar',
                                         },
                                     },
+                                    {
+                                        loader: 'other-loader',
+                                        options: {
+                                            bar: 'baz',
+                                        },
+                                    },
                                 ],
                             },
                         ],
@@ -61,6 +67,12 @@ describe('combineConfigs', () => {
                 ]),
 
                 eslint: {
+                    // This should not conflict with the '$eslint.extends' query above
+                    extends: (eslintExtends) => ([
+                        ...eslintExtends,
+                        'baz',
+                    ]),
+
                     // This should overwrite previous eslint.rules (func w/o spread)
                     rules: () => ({
                         'only-rule': 'rules-them-all',
@@ -89,6 +101,8 @@ describe('combineConfigs', () => {
             runners: {
                 webpack: {
                     '$module.rules[**].use[**][loader=test-loader]': mockJsonQueryResolver,
+                    // Multiple search queries should not conflict
+                    '$module.rules[**].use[**][loader=other-loader]': mockJsonQueryResolver,
                 },
             },
         };
@@ -101,7 +115,7 @@ describe('combineConfigs', () => {
         expect(configA.runners.webpack).toHaveBeenCalledWith(undefined);
     });
 
-    it('Function in config B should be called with previous config', () => {
+    test('Function in config B should be called with previous config', () => {
         expect(configB.options).toHaveBeenCalledTimes(1);
         expect(configB.options).toHaveBeenCalledWith({
             options: {
@@ -110,33 +124,50 @@ describe('combineConfigs', () => {
         });
     });
 
-    it('Primitive values should be merged correctly', () => {
+    test('Primitive values should be merged correctly', () => {
         expect(result.options.host).toBe('project');
         expect(result.options.port).toBe(1);
     });
 
-    it('Array values should be merged correctly', () => {
-        expect(result.addons.eslint.extends).toHaveLength(2);
+    test('Array values should be merged correctly', () => {
+        expect(result.addons.eslint.extends.length).toBeGreaterThan(1);
         expect(result.addons.eslint.extends).toContain('bar');
     });
 
-    it('Object values can be overwritten', () => {
+    test('Object values can be overwritten', () => {
         expect(Object.keys(result.addons.eslint.rules)).toHaveLength(1);
         expect(result.addons.eslint.rules['only-rule']).toBeDefined();
     });
 
-    it('Object values can be merged', () => {
+    test('Object values can be merged', () => {
         expect(Object.keys(result.runners.webpack.entry)).toHaveLength(2);
         expect(result.runners.webpack.entry.otherBundle).toBeDefined();
     });
 
-    it('Query function should be merged correctly', () => {
-        expect(
-            result.runners.webpack.module.rules[0].use[0].options.foo
-        ).toBe('baz');
+    test('Query function should be merged correctly', () => {
+        const testLoaderResult = result.runners.webpack.module.rules[0].use[0];
+
+        expect(testLoaderResult.options.foo).toBe('baz');
     });
 
-    it.skip('Query function should receive original value', () => {
+    test('Using query and same nested object structure should not conflict ', () => {
+        expect(result.addons.eslint.extends).toHaveLength(3);
+        expect(result.addons.eslint.extends).toContain('baz');
+    });
+
+    test('Multiple search queries should not conflict', () => {
+        const testLoaderResult = result.runners.webpack.module.rules[0].use[0];
+        const otherLoaderResult = result.runners.webpack.module.rules[0].use[1];
+
+        expect(testLoaderResult.loader).toBe('test-loader');
+        expect(testLoaderResult.options.foo).toBe('baz');
+
+        expect(otherLoaderResult.loader).toBe('other-loader');
+        expect(otherLoaderResult.options.foo).toBe('baz');
+        expect(otherLoaderResult.options.bar).toBe('baz');
+    });
+
+    test.skip('Query function should receive original value', () => {
         // Call mock fn first
         const webpackA = configA.runners.webpack();
 
