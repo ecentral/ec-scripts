@@ -12,7 +12,8 @@ module.exports = (options) => {
                     loader: 'css-loader',
                     options: {
                         sourceMap: true,
-                        modules: true,
+                        modules: false,
+                        // If modules are enabled, they resolve to this pattern
                         localIdentName: '[name]_[local]__[hash:base64:5]',
                     },
                 },

@@ -175,7 +175,7 @@ module.exports = {
         
         // The file size in bytes under which the url-loader kicks in
         // and base64-inlines your required files.
-        inlineFileSize: 10000, // Use 1 to disable, 0 for no limit at all
+        inlineFileSize: -1, // Use -1 to disable, 0 for no limit at all
         
         // BELOW SHOULD NOT BE CHANGED IN MOST CASES!
         
