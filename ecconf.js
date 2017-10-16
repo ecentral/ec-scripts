@@ -24,15 +24,15 @@ module.exports = {
             'not ie < 9',
         ],
         // The file size in bytes under which the url-loader kicks in.
-        inlineFileSize: 10000,
+        inlineFileSize: -1, // Disabled
         // Define environment boolean flags
         devMode: process.env.NODE_ENV === 'development',
         testMode: process.env.NODE_ENV === 'test',
     }),
 
-    addons: ({ options }) => ({
-        babel: require('./config/babel')(options),
-        eslint: require('./config/eslint')(options),
+    addons: (config) => ({
+        babel: require('./config/babel')(config.options),
+        eslint: require('./config/eslint')(config.options),
     }),
 
     runners: (config) => ({

@@ -28,8 +28,7 @@ module.exports = (options) => {
         const assetsOutputPath = path.resolve(
             settings.appPath,
             options.buildDir,
-            // Use same assets folder name, but strip relative (../)
-            options.assetsDir.replace(/^(?:\.\.\/)+/, '')
+            path.basename(options.assetsDir)
         );
 
         plugins.push(

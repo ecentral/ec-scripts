@@ -1,3 +1,2 @@
-default-configs/
 node_modules/
-.idea/
+test/build/

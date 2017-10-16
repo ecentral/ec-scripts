@@ -1,6 +1,6 @@
 {
   "name": "ec-scripts",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "eCentral Scripts for painless, modern JavaScript development.",
   "author": "eCentral GmbH <info@ecentral.de>",
   "contributors": [
@@ -16,7 +16,7 @@
     "ec-scripts": "bin/cli.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "engines": {
     "node": ">=8.0",
@@ -58,5 +58,11 @@
     "url-loader": "^0.5.7",
     "webpack": "^3.6.0",
     "webpack-dev-server": "^2.9.0"
+  },
+  "jest": {
+    "verbose": true
+  },
+  "devDependencies": {
+    "del": "^3.0.0"
   }
 }
