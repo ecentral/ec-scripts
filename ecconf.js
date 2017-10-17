@@ -10,7 +10,7 @@ module.exports = {
             'index.js',
         ],
         // Set default html template (or `null` for no html template)
-        htmlTemplate: require.resolve('./templates/index.ejs'),
+        htmlTemplate: require.resolve('./resources/index.ejs'),
         // Define page title
         title: 'App | powered by ec-scripts',
         // DevServer settings
