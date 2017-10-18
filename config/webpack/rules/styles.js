@@ -49,7 +49,7 @@ module.exports = (options) => {
                     loader: 'css-loader',
                     options: {
                         sourceMap: true,
-                        modules: true,
+                        modules: false,
                         localIdentName: '[name]__[hash:base64:5]',
                     },
                 },
