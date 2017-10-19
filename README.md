@@ -28,7 +28,7 @@ that contains at least the following entries:
     "config": "cross-env NODE_ENV=development ec-scripts --show-config"
   },
   "devDependencies": {
-    "ec-scripts": "git+ssh://git@gitlab.ecentral.de:2222/f.laukel/ec-scripts.git"
+    "ec-scripts": "git+https://git@gitlab.ecentral.de/f.laukel/ec-scripts.git"
   }
 }
 ```
