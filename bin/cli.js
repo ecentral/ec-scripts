@@ -2,6 +2,9 @@
 const util = require('util');
 const parseArgs = require('minimist');
 const invariant = require('invariant');
+const chalk = require('chalk');
+const ip = require('ip');
+const clearConsole = require('console-clear');
 const resolvePresets = require('../lib/utils/resolvePresets');
 const combineConfigs = require('../lib/utils/combineConfigs');
 const writeFile = require('../lib/utils/writeFile');
@@ -37,17 +40,19 @@ if (args.build) {
         config.runners.webpack.watch = true;
     }
 
-    webpack(config.runners.webpack, (err, stats) => {
-        if (err) throw err;
+    const compiler = webpack(config.runners.webpack);
 
-        console.log('[webpack]', stats.toString({
-            colors: true,
-            hash: false,
-            timings: true,
-            chunks: false,
-            chunkModules: false,
-            modules: false,
-        }));
+    compiler.run((err, stats) => {
+        console.log();
+
+        if (err || stats.hasErrors()) {
+            console.log(chalk.red('Build failed!'));
+        } else {
+            console.log(chalk.green('Compiled successfully!'));
+        }
+
+        console.log();
+        console.log('[webpack]', stats.toString(config.runners.webpack.stats));
     });
 }
 
@@ -62,18 +67,32 @@ if (args.start) {
     );
 
     const { host, port } = config.options;
-    const url = `http://${host === '0.0.0.0' ? 'localhost' : host}:${port}`;
+    const localUrl = `http://${host === '0.0.0.0' ? 'localhost' : host}:${port}`;
+    const networkUrl = `http://${ip.address()}:${port}`;
+
+    const compiler = webpack(config.runners.webpack);
+
+    compiler.plugin('done', (stats) => {
+        clearConsole();
+
+        if (stats.hasErrors()) {
+            console.log(chalk.red('Build failed!'));
+        } else {
+            console.log(chalk.green('Compiled successfully!'));
+            console.log();
+            console.log('Open your browser to view the app.');
+            console.log();
+            console.log(`Local:            ${localUrl}`);
+            console.log(`On Your Network:  ${networkUrl}`);
+        }
+
+        console.log();
+    });
 
     new WebpackDevServer(
-        webpack(config.runners.webpack),
-        // For some reason passing this explicitly seems necessary
+        compiler,
         config.runners.webpack.devServer
-    )
-        .listen(port, host, (err) => {
-            if (err) throw err;
-            // Server listening
-            console.info('[webpack-dev-server]', url);
-        });
+    ).listen(port, host);
 }
 
 if (args.test) {
