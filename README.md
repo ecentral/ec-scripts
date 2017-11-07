@@ -174,7 +174,7 @@ module.exports = {
         
         // Set path to html template.
         // Should be absolute or relative to your project root.
-        htmlTemplate: require.resolve('./templates/index.ejs'), // null for no html template
+        htmlTemplate: require.resolve('./resources/index.ejs'), // null for no html template
         
         // Define page title.
         title: 'App | powered by ec-scripts',
