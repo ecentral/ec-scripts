@@ -59,10 +59,10 @@
     "webpack": "^3.6.0",
     "webpack-dev-server": "^2.9.0"
   },
-  "jest": {
-    "verbose": true
-  },
   "devDependencies": {
     "del": "^3.0.0"
+  },
+  "jest": {
+    "verbose": true
   }
 }
