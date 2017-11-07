@@ -62,7 +62,7 @@ if (args.start) {
     );
 
     const { host, port } = config.options;
-    const url = `http://${host}:${port}`;
+    const url = `http://${host === '0.0.0.0' ? 'localhost' : host}:${port}`;
 
     new WebpackDevServer(
         webpack(config.runners.webpack),
