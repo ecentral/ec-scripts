@@ -172,6 +172,12 @@ module.exports = {
             'index.js',
         ],
         
+        // Set js output filename in webpack.output
+        jsOutputFile: '[name].bundle.js',
+        
+        // Set css output filename for ExtractTextWebpackPlugin
+        cssOutputFile: 'style.css',
+        
         // Set path to html template.
         // Should be absolute or relative to your project root.
         htmlTemplate: require.resolve('./resources/index.ejs'), // null for no html template
