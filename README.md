@@ -64,12 +64,12 @@ import './path/to/main.scss';
 As of now, this writes an `.eslintrc.json` file to your project folder.
 This is useful if you want to enable ESLint support in your IDE.<br>
 So at the moment, running this command is only necessary when changing any ESLint related configuration
-in `ecconf.js`.<br>
+in `.ecconf.js`.<br>
 
 *This also happens automatically on every other command.*
 
 **NOTE:** You should therefore not edit `.eslintrc.json` directly.<br>
-Extend `addons.eslint.rules` in `ecconf.js` to change your project's ESLint rules.<br>
+Extend `addons.eslint.rules` in `.ecconf.js` to change your project's ESLint rules.<br>
 More information below.
 
 ### `npm run start`
@@ -101,7 +101,7 @@ Prints the used configuration settings in your console.
 One goal with eC Scripts was not only to give you a single, pre-configured toolset.
 It was also important for us that it can be extended and customized.
 
-That's where `ecconf.js` comes in play.
+That's where `.ecconf.js` comes in play.
 
 ### Using presets
 
@@ -114,7 +114,7 @@ It hooks in and configures Babel, ESLint, Jest, Webpack, HMR... well, all this s
 Sounds complicated?<br>
 Let's see how we implement it in your project:
 
-**Step 1:** In your project root create a file `ecconf.js` with the following content:
+**Step 1:** In your project root create a file `.ecconf.js` with the following content:
 ```js
 module.exports = {
     presets: ['react'],
@@ -139,12 +139,12 @@ So, how hard can it be to change the configuration settings on your own, right?
 
 #### Options
 
-Changing options in `ecconf.js` is an easy way to adjust the configuration according to your environment.
+Changing options in `.ecconf.js` is an easy way to adjust the configuration according to your environment.
 
 Below you find a list of all available options with their default values, defined by eC Scripts.
 
 ```js
-// ecconf.js
+// .ecconf.js
 
 module.exports = {
     // ...
@@ -214,12 +214,12 @@ module.exports = {
 
 #### The idea of Options, Addons and Runners
 
-As you may have expected, using options isn't the only thing you can do with `ecconf.js`.<br>
+As you may have expected, using options isn't the only thing you can do with `.ecconf.js`.<br>
 There's also "addons" and "runners".
 These names are used to define two groups of tools within eC Scripts.
 
 Addons are all the tools that runners need to run your code.<br>
-Therefore addons in `ecconf.js` contain the configurations for Babel and ESLint. Maybe more in the future.<br>
+Therefore addons in `.ecconf.js` contain the configurations for Babel and ESLint. Maybe more in the future.<br>
 Babel is especially important here, as it transpiles your future JS code for not so modern browsers.
 
 As mentioned before, runners eventually run your code and do things with it, utilizing addons.
@@ -228,7 +228,7 @@ Webpack bundles your code. Jest runs your tests. They do not have much in common
 **except** sharing options and addons as they need!
 
 So, let me try to explain how our extendable configuration concept works:
-- First eC Scripts gathers all `ecconf.js` files by looking inside your project root
+- First eC Scripts gathers all `.ecconf.js` files by looking inside your project root
 and resolving any presets that you added.
 - It then merges all configurations into one, step by step, in this order `root -> [...presets] -> project`:
   - It starts by merging all **options** in that order.<br>
@@ -236,13 +236,13 @@ and resolving any presets that you added.
   - Finally it merges all **runners**, also in this order.
 - The resulting configuration object is the one that is used inside all the tools.
   
-Note that every options, addons or runners section in `ecconf.js`
+Note that every options, addons or runners section in `.ecconf.js`
 can receive the current state of the merged configuration, when defined as a function.
 
 Here's a practival overview of different approaches on how to update a configuration:
 
 ```js
-// ecconf.js in your project
+// .ecconf.js in your project
 
 module.exports = {
     // options, addons and runners always receive the whole config object when defined as a function.
@@ -283,7 +283,7 @@ The good thing is, though, that it's possible to update the all the configuratio
 change only the parts you need for what you want to achieve.
 
 Of course this sounds very theoretical and we will not go in detail here by
-explaining all the possibilities you have inside an `ecconf.js` file.
+explaining all the possibilities you have inside an `.ecconf.js` file.
 
 For advanced usage it's a good start to look at the 
 [React preset source](https://gitlab.ecentral.de/f.laukel/ec-scripts-react/blob/master/ecconf.js) itself.
