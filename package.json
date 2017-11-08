@@ -66,6 +66,9 @@
     "del": "^3.0.0"
   },
   "jest": {
-    "verbose": true
+    "verbose": true,
+    "testMatch": [
+      "**/*.(spec|test).js"
+    ]
   }
 }
