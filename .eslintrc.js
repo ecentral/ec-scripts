@@ -13,6 +13,7 @@ module.exports = {
     }],
     "global-require": "off",
     "no-console": "off",
+    "no-unused-expressions": "off",
     "import/no-dynamic-require": "off"
   }
 };
