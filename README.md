@@ -11,8 +11,7 @@ or adjust it to match your specific project needs.
 
 ## Getting started
 
-**Requirements:** You need at least Node 8.x and NPM 5.x installed to run eC Scripts.  
-We plan to support Node 6.x in a later version.
+**Requirements:** You need at least Node 8.x and NPM 5.x installed.  
 
 **Step 1:** For now you need to place a `package.json` file inside your project folder,
 that contains at least the following entries:
