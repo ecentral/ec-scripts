@@ -20,8 +20,6 @@ invariant(
 // Always rebuild .eslintrc file.
 writeFile(settings.appPath, '.eslintrc.json', getConfig().addons.eslint);
 
-// TODO: inject config like so: https://github.com/yargs/yargs/blob/master/docs/api.md#configobject
-
 yargs
     .command(build)
     .command(start)
