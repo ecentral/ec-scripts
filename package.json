@@ -7,6 +7,11 @@
     "Felix Laukel <f.laukel@ecentral.de>",
     "Marcus von Keil <m.vonkeil@ecentral.de>"
   ],
+  "keywords": [
+    "ec-scripts",
+    "project",
+    "generator"
+  ],
   "repository": {
     "type": "git",
     "url": "https://gitlab.ecentral.de/f.laukel/ec-scripts.git"
