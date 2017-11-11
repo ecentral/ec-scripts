@@ -13,7 +13,7 @@
   },
   "main": "lib/index.js",
   "bin": {
-    "ec-scripts": "bin/cli.js"
+    "ec-scripts": "bin/ec-scripts.js"
   },
   "scripts": {
     "test": "jest"
