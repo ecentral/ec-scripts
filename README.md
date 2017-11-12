@@ -11,32 +11,41 @@ or adjust it to match your specific project needs.
 
 ## Getting started
 
-**Requirements:** You need at least Node 8.x and NPM 5.x installed.  
+**Requirements:** You need at least Node.js 8.x and NPM 5.x installed.<br>
 
-**Step 1:** For now you need to place a `package.json` file inside your project folder,
-that contains at least the following entries:
+### Using eC Scripts CLI
+
+When starting with a new project, it's recommended you `npm install -g ec-scripts-cli`
+and then run `ec-cli init` in your project folder.
+
+Done!
+
+[Learn more about eC Scripts CLI.](https://github.com/ecentral/ec-scripts-cli)
+
+### Adding eC Scripts manually
+
+**Step 1:** Install eC Scripts with `npm i ec-scripts --save-dev`:
+
+**Step 2:** Add the following `scripts` entries to your `package.json` file inside your project folder:
  
-```
+```json
 {
   "scripts": {
-    "init": "cross-env NODE_ENV=development ec-scripts --init",
-    "start": "cross-env NODE_ENV=development ec-scripts --start",
-    "build": "cross-env NODE_ENV=production ec-scripts --build",
-    "build-watch": "cross-env NODE_ENV=production ec-scripts --build --watch",
-    "test": "cross-env NODE_ENV=test ec-scripts --test",
-    "config": "cross-env NODE_ENV=development ec-scripts --show-config"
-  },
-  "devDependencies": {
-    "ec-scripts": "git+https://git@gitlab.ecentral.de/f.laukel/ec-scripts.git"
+    "init": "cross-env NODE_ENV=development ec-scripts init",
+    "start": "cross-env NODE_ENV=development ec-scripts start",
+    "build": "cross-env NODE_ENV=production ec-scripts build",
+    "build-watch": "cross-env NODE_ENV=production ec-scripts build --watch",
+    "test": "cross-env NODE_ENV=test ec-scripts test",
+    "config": "cross-env NODE_ENV=development ec-scripts show-config"
   }
 }
 ```
 
-**Step 2:** Run `npm i && npm run init`.
+**Step 3:** Run `npm run init`.
 
-**Step 3:** Create `src/index.js` and start writing some code!
+**Step 4:** Create `src/index.js` and start writing some code!
 
-**Step 4:** Run `npm start` to start the development server.
+**Step 5:** Run `npm start` to start the development server.
 
 You can now open [http://localhost:3000/](http://localhost:3000/) to see your app.<br>
 When you’re ready to deploy to production, create a minified bundle with `npm run build`.
@@ -108,7 +117,7 @@ Let's say just writing pure ES6 code isn't enough for you.
 You need a solution for your view components and you want to use React, Vue or this other library.
 
 Fortunately there is a React preset available for eC Scripts!
-It hooks in and configures Babel, ESLint, Jest, Webpack, HMR... well, all this stuff - for you.
+It hooks in and configures Babel, ESLint, Jest, Webpack, HMR... well, all this stuff.
 
 Sounds complicated?<br>
 Let's see how we implement it in your project:
@@ -220,7 +229,7 @@ module.exports = {
 #### The idea of Options, Addons and Runners
 
 As you may have expected, using options isn't the only thing you can do with `.ecconf.js`.<br>
-There's also "addons" and "runners".
+There is also the concept of "addons" and "runners".
 These names are used to define two groups of tools within eC Scripts.
 
 Addons are all the tools that runners need to run your code.<br>
@@ -228,23 +237,23 @@ Therefore addons in `.ecconf.js` contain the configurations for Babel and ESLint
 Babel is especially important here, as it transpiles your future JS code for not so modern browsers.
 
 As mentioned before, runners eventually run your code and do things with it, utilizing addons.
-As you may have guessed by now, these runners are Webpack and Jest.
+These runners are Webpack and Jest..<br>
 Webpack bundles your code. Jest runs your tests. They do not have much in common,
 **except** sharing options and addons as they need!
 
-So, let me try to explain how our extendable configuration concept works:
+Here is a rough explanation of how our extendable configuration concept works:
 - First eC Scripts gathers all `.ecconf.js` files by looking inside your project root
 and resolving any presets that you added.
 - It then merges all configurations into one, step by step, in this order `root -> [...presets] -> project`:
   - It starts by merging all **options** in that order.<br>
-  - It continues by merging **addons** in the same order.
-  - Finally it merges all **runners**, also in this order.
+  - It continues by merging all **addons** in that order.
+  - Finally it merges all **runners** in that order.
 - The resulting configuration object is the one that is used inside all the tools.
   
 Note that every options, addons or runners section in `.ecconf.js`
 can receive the current state of the merged configuration, when defined as a function.
 
-Here's a practival overview of different approaches on how to update a configuration:
+Here is a practival overview of different approaches on how to update a configuration:
 
 ```js
 // .ecconf.js in your project
