@@ -13,6 +13,8 @@ module.exports = (config) => ({
 
     devServer: require('./devServer')(config.options),
 
+    stats: require('./stats')(config.options),
+
     module: {
         rules: [
             require('./rules/scripts')(config.addons),
