@@ -130,7 +130,7 @@ module.exports = {
 ```
 
 **Step 2:** Install preset dependency:<br>
-`npm i --save-dev ec-scripts-preset-react@git+https://git@gitlab.ecentral.de/f.laukel/ec-scripts-preset-react.git`
+`npm i --save-dev ec-scripts-preset-react`
 
 **Step 3:** To update your local `.eslintrc.json` file so that your IDE immediately knows about
 React and JSX related rules:<br>
@@ -300,7 +300,7 @@ Of course this sounds very theoretical and we will not go in detail here by
 explaining all the possibilities you have inside an `.ecconf.js` file.
 
 For advanced usage it's a good start to look at the 
-[React preset source](https://gitlab.ecentral.de/f.laukel/ec-scripts-preset-react/blob/master/ecconf.js) itself.
+[React preset source](https://github.com/ecentral/ec-scripts-preset-react/blob/master/ecconf.js) itself.
 
 ## Acknowledgements
 
