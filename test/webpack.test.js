@@ -26,6 +26,9 @@ const makeBundle = (config) => {
 };
 
 describe('Webpack', () => {
+    // 60 sec time to create bundle
+    jest.setTimeout(60000);
+
     const buildDir = 'build';
     const testConfig = {
         options: {

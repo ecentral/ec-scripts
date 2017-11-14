@@ -1,0 +1,10 @@
+{
+    "scripts": {
+        "init": "cross-env NODE_ENV=development ec-scripts init",
+        "start": "cross-env NODE_ENV=development ec-scripts start",
+        "build": "cross-env NODE_ENV=production ec-scripts build",
+        "build-watch": "cross-env NODE_ENV=production ec-scripts build --watch",
+        "test": "cross-env NODE_ENV=test ec-scripts test",
+        "config": "cross-env NODE_ENV=development ec-scripts show-config"
+    }
+}

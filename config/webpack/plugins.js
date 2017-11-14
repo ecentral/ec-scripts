@@ -70,7 +70,7 @@ module.exports = (options) => {
                 NODE_ENV: JSON.stringify('production'),
             },
         }),
-        new ExtractTextPlugin('style.css'),
+        new ExtractTextPlugin(options.cssOutputFile),
         new webpack.optimize.UglifyJsPlugin({
             sourceMap: true,
             compress: {

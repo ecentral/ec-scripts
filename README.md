@@ -11,33 +11,41 @@ or adjust it to match your specific project needs.
 
 ## Getting started
 
-**Requirements:** You need at least Node 8.x and NPM 5.x installed to run eC Scripts.  
-We plan to support Node 6.x in a later version.
+**Requirements:** You need at least Node.js 8.x and NPM 5.x installed.<br>
 
-**Step 1:** For now you need to place a `package.json` file inside your project folder,
-that contains at least the following entries:
+### Using eC Scripts CLI
+
+When starting with a new project, it's recommended you `npm install -g ec-scripts-cli`
+and then run `ec-cli init` in your project folder.
+
+Done!
+
+[Learn more about eC Scripts CLI.](https://github.com/ecentral/ec-scripts-cli)
+
+### Adding eC Scripts manually
+
+**Step 1:** Install eC Scripts with `npm i ec-scripts --save-dev`:
+
+**Step 2:** Add the following `scripts` entries to your `package.json` file inside your project folder:
  
-```
+```json
 {
   "scripts": {
-    "init": "cross-env NODE_ENV=development ec-scripts --init",
-    "start": "cross-env NODE_ENV=development ec-scripts --start",
-    "build": "cross-env NODE_ENV=production ec-scripts --build",
-    "build-watch": "cross-env NODE_ENV=production ec-scripts --build --watch",
-    "test": "cross-env NODE_ENV=test ec-scripts --test",
-    "config": "cross-env NODE_ENV=development ec-scripts --show-config"
-  },
-  "devDependencies": {
-    "ec-scripts": "git+https://git@gitlab.ecentral.de/f.laukel/ec-scripts.git"
+    "init": "cross-env NODE_ENV=development ec-scripts init",
+    "start": "cross-env NODE_ENV=development ec-scripts start",
+    "build": "cross-env NODE_ENV=production ec-scripts build",
+    "build-watch": "cross-env NODE_ENV=production ec-scripts build --watch",
+    "test": "cross-env NODE_ENV=test ec-scripts test",
+    "config": "cross-env NODE_ENV=development ec-scripts show-config"
   }
 }
 ```
 
-**Step 2:** Run `npm i && npm run init`.
+**Step 3:** Run `npm run init`.
 
-**Step 3:** Create `src/index.js` and start writing some code!
+**Step 4:** Create `src/index.js` and start writing some code!
 
-**Step 4:** Run `npm start` to start the development server.
+**Step 5:** Run `npm start` to start the development server.
 
 You can now open [http://localhost:3000/](http://localhost:3000/) to see your app.<br>
 When you’re ready to deploy to production, create a minified bundle with `npm run build`.
@@ -64,12 +72,12 @@ import './path/to/main.scss';
 As of now, this writes an `.eslintrc.json` file to your project folder.
 This is useful if you want to enable ESLint support in your IDE.<br>
 So at the moment, running this command is only necessary when changing any ESLint related configuration
-in `ecconf.js`.<br>
+in `.ecconf.js`.<br>
 
 *This also happens automatically on every other command.*
 
 **NOTE:** You should therefore not edit `.eslintrc.json` directly.<br>
-Extend `addons.eslint.rules` in `ecconf.js` to change your project's ESLint rules.<br>
+Extend `addons.eslint.rules` in `.ecconf.js` to change your project's ESLint rules.<br>
 More information below.
 
 ### `npm run start`
@@ -101,7 +109,7 @@ Prints the used configuration settings in your console.
 One goal with eC Scripts was not only to give you a single, pre-configured toolset.
 It was also important for us that it can be extended and customized.
 
-That's where `ecconf.js` comes in play.
+That's where `.ecconf.js` comes in play.
 
 ### Using presets
 
@@ -109,12 +117,12 @@ Let's say just writing pure ES6 code isn't enough for you.
 You need a solution for your view components and you want to use React, Vue or this other library.
 
 Fortunately there is a React preset available for eC Scripts!
-It hooks in and configures Babel, ESLint, Jest, Webpack, HMR... well, all this stuff - for you.
+It hooks in and configures Babel, ESLint, Jest, Webpack, HMR... well, all this stuff.
 
 Sounds complicated?<br>
 Let's see how we implement it in your project:
 
-**Step 1:** In your project root create a file `ecconf.js` with the following content:
+**Step 1:** In your project root create a file `.ecconf.js` with the following content:
 ```js
 module.exports = {
     presets: ['react'],
@@ -122,7 +130,7 @@ module.exports = {
 ```
 
 **Step 2:** Install preset dependency:<br>
-`npm i --save-dev ec-scripts-react@git+https://git@gitlab.ecentral.de/f.laukel/ec-scripts-react.git`
+`npm i --save-dev ec-scripts-preset-react`
 
 **Step 3:** To update your local `.eslintrc.json` file so that your IDE immediately knows about
 React and JSX related rules:<br>
@@ -139,12 +147,12 @@ So, how hard can it be to change the configuration settings on your own, right?
 
 #### Options
 
-Changing options in `ecconf.js` is an easy way to adjust the configuration according to your environment.
+Changing options in `.ecconf.js` is an easy way to adjust the configuration according to your environment.
 
 Below you find a list of all available options with their default values, defined by eC Scripts.
 
 ```js
-// ecconf.js
+// .ecconf.js
 
 module.exports = {
     // ...
@@ -172,9 +180,15 @@ module.exports = {
             'index.js',
         ],
         
+        // Set js output filename in webpack.output
+        jsOutputFile: '[name].bundle.js',
+        
+        // Set css output filename for ExtractTextWebpackPlugin
+        cssOutputFile: 'style.css',
+        
         // Set path to html template.
         // Should be absolute or relative to your project root.
-        htmlTemplate: require.resolve('./templates/index.ejs'), // null for no html template
+        htmlTemplate: require.resolve('./resources/index.ejs'), // null for no html template
         
         // Define page title.
         title: 'App | powered by ec-scripts',
@@ -214,35 +228,35 @@ module.exports = {
 
 #### The idea of Options, Addons and Runners
 
-As you may have expected, using options isn't the only thing you can do with `ecconf.js`.<br>
-There's also "addons" and "runners".
+As you may have expected, using options isn't the only thing you can do with `.ecconf.js`.<br>
+There is also the concept of "addons" and "runners".
 These names are used to define two groups of tools within eC Scripts.
 
 Addons are all the tools that runners need to run your code.<br>
-Therefore addons in `ecconf.js` contain the configurations for Babel and ESLint. Maybe more in the future.<br>
+Therefore addons in `.ecconf.js` contain the configurations for Babel and ESLint. Maybe more in the future.<br>
 Babel is especially important here, as it transpiles your future JS code for not so modern browsers.
 
 As mentioned before, runners eventually run your code and do things with it, utilizing addons.
-As you may have guessed by now, these runners are Webpack and Jest.
+These runners are Webpack and Jest..<br>
 Webpack bundles your code. Jest runs your tests. They do not have much in common,
 **except** sharing options and addons as they need!
 
-So, let me try to explain how our extendable configuration concept works:
-- First eC Scripts gathers all `ecconf.js` files by looking inside your project root
+Here is a rough explanation of how our extendable configuration concept works:
+- First eC Scripts gathers all `.ecconf.js` files by looking inside your project root
 and resolving any presets that you added.
 - It then merges all configurations into one, step by step, in this order `root -> [...presets] -> project`:
   - It starts by merging all **options** in that order.<br>
-  - It continues by merging **addons** in the same order.
-  - Finally it merges all **runners**, also in this order.
+  - It continues by merging all **addons** in that order.
+  - Finally it merges all **runners** in that order.
 - The resulting configuration object is the one that is used inside all the tools.
   
-Note that every options, addons or runners section in `ecconf.js`
+Note that every options, addons or runners section in `.ecconf.js`
 can receive the current state of the merged configuration, when defined as a function.
 
-Here's a practival overview of different approaches on how to update a configuration:
+Here is a practival overview of different approaches on how to update a configuration:
 
 ```js
-// ecconf.js in your project
+// .ecconf.js in your project
 
 module.exports = {
     // options, addons and runners always receive the whole config object when defined as a function.
@@ -283,10 +297,10 @@ The good thing is, though, that it's possible to update the all the configuratio
 change only the parts you need for what you want to achieve.
 
 Of course this sounds very theoretical and we will not go in detail here by
-explaining all the possibilities you have inside an `ecconf.js` file.
+explaining all the possibilities you have inside an `.ecconf.js` file.
 
 For advanced usage it's a good start to look at the 
-[React preset source](https://gitlab.ecentral.de/f.laukel/ec-scripts-react/blob/master/ecconf.js) itself.
+[React preset source](https://github.com/ecentral/ec-scripts-preset-react/blob/master/ecconf.js) itself.
 
 ## Acknowledgements
 
