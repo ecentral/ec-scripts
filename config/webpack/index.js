@@ -7,6 +7,10 @@ module.exports = (config) => ({
 
     target: 'web',
 
+    mode: config.options.devMode
+        ? 'development'
+        : 'production',
+
     devtool: config.options.devMode
         ? 'eval-source-map'
         : 'source-map',
@@ -24,6 +28,8 @@ module.exports = (config) => ({
     },
 
     plugins: require('./plugins')(config.options),
+
+    optimization: require('./optimization')(config.options),
 
     resolve: {
         modules: [

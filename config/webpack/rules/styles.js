@@ -20,6 +20,7 @@ module.exports = (options) => {
                 {
                     loader: 'postcss-loader',
                     options: {
+                        sourceMap: true,
                         plugins: [
                             autoprefixer({
                                 browsers: options.browserList,
@@ -56,6 +57,7 @@ module.exports = (options) => {
                 {
                     loader: 'postcss-loader',
                     options: {
+                        sourceMap: true,
                         plugins: [
                             autoprefixer({
                                 browsers: options.browserList,
