@@ -17,5 +17,6 @@ module.exports = () => ({
             exports: 'always-multiline',
             functions: 'ignore',
         }],
+        'padded-blocks': 'off',
     },
 });
