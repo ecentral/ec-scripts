@@ -29,8 +29,6 @@ module.exports = (config) => ({
 
     plugins: require('./plugins')(config.options),
 
-    optimization: require('./optimization')(config.options),
-
     resolve: {
         modules: [
             'node_modules',
