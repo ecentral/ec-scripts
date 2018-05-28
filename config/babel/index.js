@@ -9,7 +9,7 @@ module.exports = (options) => {
                         node: 'current',
                     },
                 }],
-                'stage-1',
+                ['stage-1', { decoratorsLegacy: true }],
             ]),
         };
     }
@@ -22,7 +22,7 @@ module.exports = (options) => {
                     browsers: options.browserList,
                 },
             }],
-            'stage-1',
+            ['stage-1', { decoratorsLegacy: true }],
         ]),
     };
 };
