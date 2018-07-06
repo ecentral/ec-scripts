@@ -18,5 +18,6 @@ module.exports = () => ({
             functions: 'ignore',
         }],
         'padded-blocks': 'off',
+        'function-paren-newline': 'off',
     },
 });
