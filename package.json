@@ -1,6 +1,6 @@
 {
   "name": "ec-scripts",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "description": "eCentral Scripts for painless, modern JavaScript development.",
   "author": "eCentral GmbH <info@ecentral.de>",
   "contributors": [
