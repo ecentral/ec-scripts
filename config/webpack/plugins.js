@@ -51,13 +51,7 @@ module.exports = (options) => {
     // Add additional plugins for development
     if (options.devMode) {
         plugins.push(
-            new webpack.DefinePlugin({
-                'process.env': {
-                    NODE_ENV: JSON.stringify('development'),
-                },
-            }),
             new webpack.HotModuleReplacementPlugin(),
-            new webpack.NamedModulesPlugin(),
         );
 
         return plugins;
@@ -65,28 +59,7 @@ module.exports = (options) => {
 
     // Add additional plugins for production
     plugins.push(
-        new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: JSON.stringify('production'),
-            },
-        }),
         new ExtractTextPlugin(options.cssOutputFile),
-        new webpack.optimize.UglifyJsPlugin({
-            sourceMap: true,
-            compress: {
-                screw_ie8: true,
-                warnings: false,
-                unused: true,
-                dead_code: true,
-            },
-            mangle: {
-                screw_ie8: true,
-            },
-            output: {
-                screw_ie8: true,
-                comments: false,
-            },
-        }),
     );
 
     return plugins;
