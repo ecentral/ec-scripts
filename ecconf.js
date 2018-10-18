@@ -14,7 +14,7 @@ module.exports = {
         // Set css output filename
         cssOutputFile: 'style.css',
         // Set default html template (or `null` for no html template)
-        htmlTemplate: require.resolve('./resources/index.ejs'),
+        htmlTemplate: 'index.html',
         // Define page title
         title: 'App | powered by ec-scripts',
         // DevServer settings

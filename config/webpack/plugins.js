@@ -43,7 +43,11 @@ module.exports = (options) => {
         plugins.push(
             new HtmlWebpackPlugin({
                 title: options.title,
-                template: options.htmlTemplate,
+                template: path.resolve(
+                    settings.appPath,
+                    options.srcDir,
+                    options.htmlTemplate
+                ),
             }),
         );
     }
