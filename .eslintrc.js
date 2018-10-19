@@ -5,6 +5,7 @@ module.exports = {
     "arrow-parens": "off",
     "quotes": ["error", "single"],
     "space-before-function-paren": "off",
+    "function-paren-newline": "off",
     "comma-dangle": ["error", {
       "arrays": "always-multiline",
       "objects": "always-multiline",

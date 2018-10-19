@@ -21,7 +21,8 @@
     "ec-scripts": "bin/ec-scripts.js"
   },
   "scripts": {
-    "test": "jest"
+    "lint": "eslint --ignore-path .gitignore --quiet ./",
+    "test": "npm run lint && jest"
   },
   "engines": {
     "node": ">=8.0",
