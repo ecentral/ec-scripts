@@ -1,34 +1,32 @@
-const resolveBabelPresets = require('../../lib/utils/resolveBabelPresets');
-
 module.exports = (options) => {
     if (options.testMode) {
         return {
-            presets: resolveBabelPresets([
-                ['@babel/preset-env', {
+            presets: [
+                [require.resolve('@babel/preset-env'), {
                     targets: {
                         node: 'current',
                     },
                 }],
-            ]),
+            ],
             plugins: [
-                '@babel/plugin-proposal-class-properties',
+                require.resolve('@babel/plugin-proposal-class-properties'),
             ],
         };
     }
 
     return {
-        presets: resolveBabelPresets([
-            ['@babel/preset-env', {
+        presets: [
+            [require.resolve('@babel/preset-env'), {
                 modules: false,
                 targets: {
                     browsers: options.browserList,
                 },
             }],
-        ]),
+        ],
         plugins: [
-            '@babel/plugin-syntax-dynamic-import',
-            '@babel/plugin-syntax-import-meta',
-            '@babel/plugin-proposal-class-properties',
+            require.resolve('@babel/plugin-syntax-dynamic-import'),
+            require.resolve('@babel/plugin-syntax-import-meta'),
+            require.resolve('@babel/plugin-proposal-class-properties'),
         ],
     };
 };
