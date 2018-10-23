@@ -4,25 +4,31 @@ module.exports = (options) => {
     if (options.testMode) {
         return {
             presets: resolveBabelPresets([
-                ['env', {
+                ['@babel/preset-env', {
                     targets: {
                         node: 'current',
                     },
                 }],
-                ['stage-1', { decoratorsLegacy: true }],
             ]),
+            plugins: [
+                '@babel/plugin-proposal-class-properties',
+            ],
         };
     }
 
     return {
         presets: resolveBabelPresets([
-            ['env', {
+            ['@babel/preset-env', {
                 modules: false,
                 targets: {
                     browsers: options.browserList,
                 },
             }],
-            ['stage-1', { decoratorsLegacy: true }],
         ]),
+        plugins: [
+            '@babel/plugin-syntax-dynamic-import',
+            '@babel/plugin-syntax-import-meta',
+            '@babel/plugin-proposal-class-properties',
+        ],
     };
 };
