@@ -76,6 +76,7 @@
   },
   "jest": {
     "verbose": true,
+    "testEnvironment": "node",
     "testMatch": [
       "**/*.(spec|test).js"
     ]
