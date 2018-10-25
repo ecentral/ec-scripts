@@ -43,7 +43,7 @@ Done!
 
 **Step 3:** Run `npm run init`.
 
-**Step 4:** Create `src/index.js` and start writing some code!
+**Step 4:** Create `src/index.html` and `src/index.js` and start writing some code!
 
 **Step 5:** Run `npm start` to start the development server.
 
@@ -187,9 +187,8 @@ module.exports = {
         cssOutputFile: 'style.css',
         
         // Set path to html template.
-        // Should be absolute or relative to your project root.
-        htmlTemplate: require.resolve('./resources/index.ejs'), // null for no html template
-        
+        htmlTemplate: 'index.html', // Relative to srcDir
+
         // Define page title.
         title: 'App | powered by ec-scripts',
         
