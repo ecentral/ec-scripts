@@ -39,17 +39,16 @@ describe('Webpack', () => {
             testMode: false,
         },
     };
-    let config;
 
     beforeEach(() => {
         del([path.resolve(buildDir)]);
-
-        const rootConfig = requireConfig(settings.rootPath);
-        config = combineConfigs([rootConfig, testConfig]);
     });
 
-    test('Bundle files are created without errors or warnings', () => (
-        makeBundle(config).then((stats) => {
+    test('Bundle files are created without errors or warnings', () => {
+        const rootConfig = requireConfig(settings.rootPath);
+        const config = combineConfigs([rootConfig, testConfig]);
+
+        return makeBundle(config).then((stats) => {
             const minStats = stats.toJson('minimal');
 
             expect(minStats.errors).toHaveLength(0);
@@ -62,6 +61,6 @@ describe('Webpack', () => {
                 'assets/foo.bar',
             ]
                 .forEach(file => expect(fs.existsSync(path.join(buildDir, file))).toBe(true));
-        })
-    ));
+        });
+    });
 });

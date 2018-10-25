@@ -17,7 +17,7 @@ module.exports = (options) => {
         );
     }
 
-    bundledEntries.push('babel-polyfill');
+    bundledEntries.push('@babel/polyfill');
 
     if (Array.isArray(options.entryFiles)) {
         return {
