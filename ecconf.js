@@ -13,6 +13,8 @@ module.exports = {
         jsOutputFile: '[name].bundle.js',
         // Set css output filename
         cssOutputFile: 'style.css',
+        // Set css filename for dynamic chunks
+        cssChunkFile: '[id].css',
         // Set default html template (or `null` for no html template)
         htmlTemplate: 'index.html',
         // Define page title

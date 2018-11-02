@@ -182,10 +182,13 @@ module.exports = {
         
         // Set js output filename in webpack.output
         jsOutputFile: '[name].bundle.js',
-        
-        // Set css output filename for ExtractTextWebpackPlugin
+
+        // Set css output filename for MiniCssExtractPlugin
         cssOutputFile: 'style.css',
-        
+
+        // Set css filename for dynamic chunks using MiniCssExtractPlugin
+        cssChunkFile: '[id].css',
+
         // Set path to html template.
         htmlTemplate: 'index.html', // Relative to srcDir
 

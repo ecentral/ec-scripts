@@ -58,6 +58,8 @@ describe('Webpack', () => {
                 'index.html',
                 'main.bundle.js',
                 'main.bundle.js.map',
+                'style.css',
+                'style.css.map',
                 'assets/foo.bar',
             ]
                 .forEach(file => expect(fs.existsSync(path.join(buildDir, file))).toBe(true));
