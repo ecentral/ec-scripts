@@ -1,9 +1,8 @@
-const path = require('path');
 const autoprefixer = require('autoprefixer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = (options) => ({
-    test: /\.(css|scss)$/,
+    test: /\.css$/,
     use: [
         options.devMode
             ? 'style-loader'
@@ -25,15 +24,6 @@ module.exports = (options) => ({
                     autoprefixer({
                         browsers: options.browserList,
                     }),
-                ],
-            },
-        },
-        {
-            loader: 'sass-loader',
-            options: {
-                sourceMap: true,
-                includePaths: [
-                    path.resolve(options.srcDir, options.stylesDir),
                 ],
             },
         },
