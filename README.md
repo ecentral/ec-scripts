@@ -4,9 +4,9 @@ eC Scripts provides a fast and painless integration of modern development tools.
 
 ## Quick Overview
 
-You need no configuration to get started with full ES6+ and SCSS support right away.
+You need no configuration to get started with full ES6+ and autoprefixed CSS support right away.
 
-In addition to that, it's possible to extend the configuration with other presets (e.g. for React)
+In addition to that, it's possible to extend the configuration with other presets (e.g. Sass, React)
 or adjust it to match your specific project needs.
 
 ## Getting started
@@ -27,7 +27,7 @@ Done!
 **Step 1:** Install eC Scripts with `npm i ec-scripts --save-dev`:
 
 **Step 2:** Add the following `scripts` entries to your `package.json` file inside your project folder:
- 
+
 ```json
 {
   "scripts": {
@@ -43,7 +43,7 @@ Done!
 
 **Step 3:** Run `npm run init`.
 
-**Step 4:** Create `src/index.js` and start writing some code!
+**Step 4:** Create `src/index.html` and `src/index.js` and start writing some code!
 
 **Step 5:** Run `npm start` to start the development server.
 
@@ -53,17 +53,19 @@ When you’re ready to deploy to production, create a minified bundle with `npm 
 You don't need to set up any other tools like Webpack, Babel, or Jest.<br>
 That's exactly what eC Scripts does for you.
 
-Just follow these simple steps and you're good to go!
+Follow these steps and you're good to go!
 
-### Getting started with SCSS
+### Getting started with (S)CSS
 
-As mentioned above, styling with autoprefixed SCSS is already set up for you.<br>
-All you need to do is add some `.scss` file and include it in your project.<br>
-The simplest way to achieve this is by importing it in your `src/index.js` like so:
+As mentioned above, styling with autoprefixed CSS is already set up for you.<br>
+All you need to do is add some `.css` file and include it in your project.<br>
+The quickest way to achieve this is by importing it in your `src/index.js` like so:
 
 ```js
-import './path/to/main.scss';
+import './path/to/main.css';
 ```
+
+Support for Sass/SCSS is available as a preset: [ec-scripts-preset-sass](https://github.com/ecentral/ec-scripts-preset-sass)
 
 ## Run commands
 
@@ -147,7 +149,7 @@ So, how hard can it be to change the configuration settings on your own, right?
 
 #### Options
 
-Changing options in `.ecconf.js` is an easy way to adjust the configuration according to your environment.
+Changing options in `.ecconf.js` is one way to adjust the configuration according to your environment.
 
 Below you find a list of all available options with their default values, defined by eC Scripts.
 
@@ -156,49 +158,45 @@ Below you find a list of all available options with their default values, define
 
 module.exports = {
     // ...
-    
+
     options: {
         // Define directory for your project files.
         srcDir: 'src',
-        
+
         // Define the directory for your static files.
         assetsDir: 'assets', // Relative to srcDir
-        
-        // Define the directory for your basic .scss files.
-        // This tells SASS compiler where to look for imports in the first place.
-        // (like main.scss or _variables.scss)
-        stylesDir: 'styles', // Relative to srcDir
-        
+
         // Define your output directory.
         buildDir: 'build',
-        
+
         // Define files for main bundle.
         // Path is relative to srcDir.
-        // May contain your scss entry file as well, so you don't have to import it.
+        // May contain your css entry file as well, so you don't have to import it.
         entryFiles: [
-            // 'styles/main.scss',
             'index.js',
         ],
-        
+
         // Set js output filename in webpack.output
         jsOutputFile: '[name].bundle.js',
-        
-        // Set css output filename for ExtractTextWebpackPlugin
+
+        // Set css output filename for MiniCssExtractPlugin
         cssOutputFile: 'style.css',
-        
+
+        // Set css filename for dynamic chunks using MiniCssExtractPlugin
+        cssChunkFile: '[id].css',
+
         // Set path to html template.
-        // Should be absolute or relative to your project root.
-        htmlTemplate: require.resolve('./resources/index.ejs'), // null for no html template
-        
+        htmlTemplate: 'index.html', // Relative to srcDir
+
         // Define page title.
         title: 'App | powered by ec-scripts',
-        
+
         // Hostname for webpack dev server.
         host: '0.0.0.0',
-        
+
         // Port for webpack dev server.
         port: 3000,
-        
+
         // List of supported browsers for babel-preset-env and postcss autoprefixer.
         browserList: [
             '>1%',
@@ -206,18 +204,18 @@ module.exports = {
             'Firefox ESR',
             'not ie < 9',
         ],
-        
+
         // The file size in bytes under which the url-loader kicks in
         // and base64-inlines your required files.
         // E.g.: When set to 5000, all files below 5KB will be inlined.
         inlineFileSize: -1, // Use -1 to disable, 0 for no limit at all
-        
+
         // BELOW SHOULD NOT BE CHANGED IN MOST CASES!
-        
+
         // Environment boolean flags.
         // Defines if we are in development mode (true) or production (false).
         devMode: process.env.NODE_ENV === 'development',
-        
+
         // Defines if we are in test mode (true) or not (false).
         testMode: process.env.NODE_ENV === 'test',
     },
@@ -249,7 +247,7 @@ and resolving any presets that you added.
   - It continues by merging all **addons** in that order.
   - Finally it merges all **runners** in that order.
 - The resulting configuration object is the one that is used inside all the tools.
-  
+
 Note that every options, addons or runners section in `.ecconf.js`
 can receive the current state of the merged configuration, when defined as a function.
 
@@ -264,7 +262,7 @@ module.exports = {
         // With a function you have power to overwrite a setting completely.
         // Remember to spread the previous content if you don't want to overwrite!
         ...currentConfig.addons,
-        
+
         eslint: {
             // When extending arrays you should use functions.
             presets: (presets) => ([
@@ -272,12 +270,12 @@ module.exports = {
                 'moar-rules',
             ]),
             // Note: When working with arrays like this you can also use .map() and .filter()!
-            
+
             // Objects on the other hand get shallow merged with the previous content automatically.
             rules: {
                 'some-rule': 'warn',
             },
-            
+
             // Therefore *if* you really want to overwrite a setting
             // use a function and don't spread previous values.
             // Use with caution, though!
@@ -299,7 +297,7 @@ change only the parts you need for what you want to achieve.
 Of course this sounds very theoretical and we will not go in detail here by
 explaining all the possibilities you have inside an `.ecconf.js` file.
 
-For advanced usage it's a good start to look at the 
+For advanced usage it's a good start to look at the
 [React preset source](https://github.com/ecentral/ec-scripts-preset-react/blob/master/ecconf.js) itself.
 
 ## Acknowledgements

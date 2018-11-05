@@ -3,7 +3,6 @@ module.exports = {
         // Working and output directories
         srcDir: 'src',
         assetsDir: 'assets', // relative to srcDir
-        stylesDir: 'styles', // relative to srcDir
         buildDir: 'build',
         // Define files for main bundle
         entryFiles: [
@@ -13,8 +12,10 @@ module.exports = {
         jsOutputFile: '[name].bundle.js',
         // Set css output filename
         cssOutputFile: 'style.css',
+        // Set css filename for dynamic chunks
+        cssChunkFile: '[id].css',
         // Set default html template (or `null` for no html template)
-        htmlTemplate: require.resolve('./resources/index.ejs'),
+        htmlTemplate: 'index.html',
         // Define page title
         title: 'App | powered by ec-scripts',
         // DevServer settings

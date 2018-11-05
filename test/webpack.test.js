@@ -7,7 +7,7 @@ const requireConfig = require('../lib/utils/requireConfig');
 const combineConfigs = require('../lib/utils/combineConfigs');
 const settings = require('../lib/settings');
 
-process.chdir(__dirname);
+process.chdir(path.join(__dirname, '../'));
 
 const makeBundle = (config) => {
     const bundle = webpack(config.runners.webpack);
@@ -29,35 +29,40 @@ describe('Webpack', () => {
     // 60 sec time to create bundle
     jest.setTimeout(60000);
 
-    const buildDir = 'build';
+    const buildDir = 'test/build';
     const testConfig = {
         options: {
-            srcDir: 'mock/src',
+            srcDir: 'test/mock/src',
             buildDir,
             // Set production mode
             devMode: false,
             testMode: false,
         },
     };
-    let config;
 
     beforeEach(() => {
         del([path.resolve(buildDir)]);
-
-        const rootConfig = requireConfig(settings.rootPath);
-        config = combineConfigs([rootConfig, testConfig]);
     });
 
-    test('Bundle files are created without errors or warnings', () => (
-        makeBundle(config).then((stats) => {
+    test('Bundle files are created without errors or warnings', () => {
+        const rootConfig = requireConfig(settings.rootPath);
+        const config = combineConfigs([rootConfig, testConfig]);
+
+        return makeBundle(config).then((stats) => {
             const minStats = stats.toJson('minimal');
 
             expect(minStats.errors).toHaveLength(0);
             expect(minStats.warnings).toHaveLength(0);
 
-            expect(fs.existsSync('./build/index.html')).toBe(true);
-            expect(fs.existsSync('./build/main.bundle.js')).toBe(true);
-            expect(fs.existsSync('./build/main.bundle.js.map')).toBe(true);
-        })
-    ));
+            [
+                'index.html',
+                'main.bundle.js',
+                'main.bundle.js.map',
+                'style.css',
+                'style.css.map',
+                'assets/foo.bar',
+            ]
+                .forEach(file => expect(fs.existsSync(path.join(buildDir, file))).toBe(true));
+        });
+    });
 });
