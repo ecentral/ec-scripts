@@ -3,7 +3,6 @@ module.exports = {
         // Working and output directories
         srcDir: 'src',
         assetsDir: 'assets', // relative to srcDir
-        stylesDir: 'styles', // relative to srcDir
         buildDir: 'build',
         // Define files for main bundle
         entryFiles: [
