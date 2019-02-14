@@ -2,6 +2,8 @@
 
 eC Scripts provides a fast and painless integration of modern development tools.
 
+**⚠ THIS REPO IS DEPRECATED. Please use the multi-package repo at [ecentral-scripts](https://github.com/ecentral/ecentral-scripts). ⚠**
+
 ## Quick Overview
 
 You need no configuration to get started with full ES6+ and autoprefixed CSS support right away.
